@@ -18,7 +18,6 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
 
@@ -44,7 +43,30 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        switch($exception) {
+            case ($exception instanceof NotFoundHttpException):
+                return $this->renderException($exception);
+                break;
+            case ($exception instanceof ModelNotFoundException):
+                return $this->renderException($exception);
+                break;
+            default:
+                return parent::render($request, $exception);
+        }
+    }
+
+    protected function renderException($e)
+    {
+        switch($e) {
+            case ($e instanceof NotFoundHttpException):
+                return response()->view('errors.404', [], 404);
+                break;
+            case ($e instanceof ModelNotFoundException):
+                return response()->view('errors.404', [], 404);
+                break;
+            default:
+                return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
+        }
     }
 
     /**

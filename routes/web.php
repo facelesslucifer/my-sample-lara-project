@@ -12,7 +12,14 @@
 */
 
 Route::get('test', 'TestController@index');
+
+// Auth routes
 Auth::routes();
 
 // home page route
 Route::get('/', 'PagesController@index');
+
+// Widget routes
+Route::get('widget/create', ['as' => 'widget.create', 'uses' => 'WidgetController@create']);
+Route::get('widget/{id}-{slug?}', ['as' => 'widget.show', 'uses' => 'WidgetController@show']);
+Route::resource('widget', 'WidgetController', ['except' => ['show', 'create']]);
