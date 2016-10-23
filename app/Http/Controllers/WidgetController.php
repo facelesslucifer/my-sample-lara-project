@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UnauthorizedException;
 use App\Http\AuthTraits\OwnsRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class WidgetController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'admin'], ['except' => ['index']]);
     }
 
     /**
@@ -90,7 +91,10 @@ class WidgetController extends Controller
      */
     public function edit($id)
     {
-        $widget = Widget::findOfFail($id);
+        $widget = Widget::findOrFail($id);
+        if(! $this->adminOrCurrentUserOwns($widget)) {
+            throw new UnauthorizedException;
+        }
 
         return view('widget.edit', compact('widget'));
     }
@@ -110,8 +114,8 @@ class WidgetController extends Controller
 
         $widget = Widget::findOrFail($id);
 
-        if($this->userNotOwnerOf($widget)) {
-            dd('You are not the owner');
+        if(! $this->adminOrCurrentUserOwns($widget)) {
+            throw new UnauthorizedException;
         }
 
         $slug = str_slug($request->name, '-');

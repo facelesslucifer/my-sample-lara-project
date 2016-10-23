@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+    <title>Register</title>
+@endsection
+
 @section('content')
 <div class="container">
     <ol class="breadcrumb">
@@ -27,7 +31,6 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
@@ -41,7 +44,6 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
@@ -55,7 +57,6 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
@@ -69,7 +70,23 @@
                                 @endif
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label for="is_subscribed" class="col-md-4 control-label">Subscribe to Newsletters?</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="is_subscribed">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-md-4 control-label{{ $errors->has('terms') ? 'has-error' : '' }}">
+                                <a href="/terms-of-service">Agree To Terms</a>
+                            </label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="terms" required>
+                                @if($errros->has('terms'))
+                                    <span class="help-block"><strong>{{ $errors->first('terms') }}</strong></span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

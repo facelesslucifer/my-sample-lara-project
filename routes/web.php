@@ -11,15 +11,52 @@
 |
 */
 
-Route::get('test', 'TestController@index');
+Route::get('test', [
+    'middleware' => ['auth', 'admin'],
+    'uses' => 'TestController@index'
+]);
 
 // Auth routes
-Auth::routes();
+// Auth::routes();
+
+// Authentication Routes...
+Route::get('login', 'Auth\AuthController@showLoginForm')->name('login');
+Route::post('login', 'Auth\AuthController@login');
+Route::post('logout', 'Auth\AuthController@logout');
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+// Registration Routes...
+Route::get('register', 'Auth\AuthController@showRegistrationForm');
+Route::post('register', 'Auth\AuthController@register');
 
 // home page route
-Route::get('/', 'PagesController@index');
+Route::get('/', [
+    'as' => 'home',
+    'uses' => 'PagesController@index',
+]);
 
 // Widget routes
 Route::get('widget/create', ['as' => 'widget.create', 'uses' => 'WidgetController@create']);
 Route::get('widget/{id}-{slug?}', ['as' => 'widget.show', 'uses' => 'WidgetController@show']);
 Route::resource('widget', 'WidgetController', ['except' => ['show', 'create']]);
+
+// Terms of Service
+Route::get('terms-of-service', 'PagesController@terms');
+
+// Privacy
+Route::get('privacy', 'PagesController@privacy');
+
+// Admin routes
+Route::get('admin', [
+    'as' => 'admin',
+    'uses' => 'AdminController@index',
+]);
+
+// Socialite routes
+Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvoide');
+Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');

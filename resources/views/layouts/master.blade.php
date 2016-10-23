@@ -12,8 +12,9 @@
 
 <body role="document">
 
-@include('layouts.nav')
+@include('layouts.facebook')
 
+@include('layouts.nav')
 
 <div class="container theme-showcase" role="main">
 

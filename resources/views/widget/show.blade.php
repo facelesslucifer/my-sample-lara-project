@@ -18,18 +18,22 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Date Created</th>
-                <th>Edit</th>
+                @if(Auth::user()->adminOrCurrentUserOwns($widget))
+                    <th>Edit</th>
+                @endif
                 <th>Delete</th>
             </tr>
             <tr>
                 <td>{{ $widget->id }}</td>
                 <td><a href="/widget/{{ $widget->id }}/edit">{{ $widget->name }}</a></td>
                 <td>{{ $widget->created_at }}</td>
-                <td>
-                    <a href="/widget/{{ $widget->id }}/edit">
-                        <button class="btn btn-default" type="button">Edit</button>
-                    </a>
-                </td>
+                @if(Auth::user()->adminOrCurrentUserOwns($widget))
+                    <td>
+                        <a href="/widget/{{ $widget->id }}/edit">
+                            <button class="btn btn-default" type="button">Edit</button>
+                        </a>
+                    </td>
+                @endif
                 <td>
                     <div class="form-group">
                         <form action="{{ url('/widget' . $widget->id) }}" method="POST" role="form" class="form">
