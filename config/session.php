@@ -148,7 +148,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', 'my-sample-project.com'),
+    'domain' => env('SESSION_DOMAIN', 'facelesslucifer.com'),
 
     /*
     |--------------------------------------------------------------------------

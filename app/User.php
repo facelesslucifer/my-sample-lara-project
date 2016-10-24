@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\AuthTraits\OwnsRecord;
+use App\Traits\HasModelTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Widget');
     }
 
-    public function socialProvider()
+    public function socialProviders()
     {
         return $this->hasMany('App\SocialProvider');
     }

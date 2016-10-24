@@ -58,5 +58,5 @@ Route::get('admin', [
 ]);
 
 // Socialite routes
-Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvoide');
+Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
