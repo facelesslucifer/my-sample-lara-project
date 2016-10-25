@@ -35,10 +35,7 @@ Route::get('register', 'Auth\AuthController@showRegistrationForm');
 Route::post('register', 'Auth\AuthController@register');
 
 // home page route
-Route::get('/', [
-    'as' => 'home',
-    'uses' => 'PagesController@index',
-]);
+Route::get('/', ['as' => 'home', 'uses' => 'PagesController@index',]);
 
 // Widget routes
 Route::get('widget/create', ['as' => 'widget.create', 'uses' => 'WidgetController@create']);
@@ -52,11 +49,20 @@ Route::get('terms-of-service', 'PagesController@terms');
 Route::get('privacy', 'PagesController@privacy');
 
 // Admin routes
-Route::get('admin', [
-    'as' => 'admin',
-    'uses' => 'AdminController@index',
-]);
+Route::get('admin', ['as' => 'admin', 'uses' => 'AdminController@index',]);
 
 // Socialite routes
 Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+
+// Profile routes
+Route::get('show-profile', ['as' => 'show-profile', 'uses' => 'ProfileController@showProfileToUser']);
+Route::get('my-profile', ['as' => 'my-profile', 'uses' => 'ProfileController@myProfile']);
+Route::resource('profile', 'ProfileController');
+
+// User routes
+Route::resource('user', 'UserController');
+
+// Settings routes
+Route::get('settings', 'SettingsController@edit');
+Route::post('settings', ['as' => 'userUpdate' , 'uses' => 'SettingsController@update']);
