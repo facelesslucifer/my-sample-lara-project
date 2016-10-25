@@ -39,6 +39,9 @@
                                         aria-expanded="false">Content <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/widget">Widgets</a></li>
+                        @if (Auth::check() && Auth::user()->isAdmin())
+                            <li><a href="/marketing-image">Marketing Images</a></li>
+                        @endif
                     </ul>
                 </li>
                 @if (Auth::check())
@@ -49,10 +52,10 @@
                             {{ Auth::user()->name }}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/my-profile">Profile</a></li>
                             @if(Auth::user()->isAdmin())
                                 <li><a href="/admin">Admin</a></li>
                             @endif
+                            <li><a href="/my-profile">Profile</a></li>
                             <li><a href="/settings">Settings</a></li>
                             <li> <a href="/auth/facebook">
                                     <i class="fa fa-facebook"></i>&nbsp;&nbsp; Facebook Sync </a>
@@ -75,14 +78,14 @@
                             </li>
                         </ul>
                     </li>
-                    <li><img class="circ" src="
-                   {{ Gravatar::get(Auth::user()->email)  }}"></li>
+                    <li><img class="circ" src="{{ Gravatar::get(Auth::user()->email)  }}"></li>
                 @else
                     <li><a href="/login">Login</a></li>
                     <li><a href="/register">Register</a></li>
                     <li>
                         <a href="/auth/facebook">
                             <i class="fa fa-facebook"></i>&nbsp;&nbsp; Sign in </a>
+
                     </li>
                     <li><a href="/auth/github"><i class="fa fa-github"></i>&nbsp;&nbsp;  Sign in</a></li>
 
