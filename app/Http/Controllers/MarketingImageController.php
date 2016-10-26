@@ -25,10 +25,11 @@ class MarketingImageController extends Controller
 
     public function index()
     {
+        $thumbnailPath = $this->thumbnailPath;
+        $marketingImages = MarketingImage::orderBy('image_weight', 'asc')
+            ->paginate(10);
 
-
-        return view('marketing-image.index');
-
+        return view('marketing-image.index', compact('marketingImages', 'thumbnailPath'));
     }
 
     /**
@@ -39,9 +40,7 @@ class MarketingImageController extends Controller
 
     public function create()
     {
-
         return view('marketing-image.create');
-
     }
     /**
      * Store a newly created resource in storage.
@@ -49,11 +48,9 @@ class MarketingImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function store(CreateImageRequest $request)
     {
         //create new instance of model to save from form
-
         $marketingImage = new MarketingImage([
 
             'image_name'        => $request->get('image_name'),
@@ -121,11 +118,10 @@ class MarketingImageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int $id
+     * @param EditImageRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-
     public function update($id, EditImageRequest $request)
     {
         $marketingImage = MarketingImage::findOrFail($id);
@@ -138,14 +134,11 @@ class MarketingImageController extends Controller
 
             $this->deleteExistingImages($marketingImage);
             $this->setNewFileExtension($request, $marketingImage);
-
         }
-
 
         $marketingImage->save();
 
         // check for file, if new file, overwrite existing file
-
         if ($this->newFileIsUploaded()){
 
             $file = $this->getUploadedFile();
@@ -168,7 +161,6 @@ class MarketingImageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function destroy($id)
     {
         $marketingImage = MarketingImage::findOrFail($id);
@@ -187,7 +179,6 @@ class MarketingImageController extends Controller
      * @param EditImageRequest $request
      * @param $marketingImage
      */
-
     private function setNewFileExtension(EditImageRequest $request, $marketingImage)
     {
         $marketingImage->image_extension = $request->file('image')->getClientOriginalExtension();
@@ -197,7 +188,6 @@ class MarketingImageController extends Controller
      * @param EditImageRequest $request
      * @param $marketingImage
      */
-
     private function setUpdatedModelValues(EditImageRequest $request, $marketingImage)
     {
         $marketingImage->image_weight = $request->get('image_weight');
