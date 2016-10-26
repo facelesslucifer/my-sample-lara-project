@@ -14,15 +14,19 @@
 
 @include('layouts.facebook')
 
-@include('layouts.nav')
+<div id="app">
 
-<div class="container theme-showcase" role="main">
+    @include('layouts.nav')
 
-    @yield('content')
+    <div class="container theme-showcase" role="main">
 
-    @include('layouts.bottom')
+        @yield('content')
 
-</div> <!-- /container -->
+        @include('layouts.bottom')
+
+    </div>
+
+</div>
 
 @include('layouts.scripts')
 

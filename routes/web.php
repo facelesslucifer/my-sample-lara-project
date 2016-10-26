@@ -69,3 +69,6 @@ Route::post('settings', ['as' => 'userUpdate' , 'uses' => 'SettingsController@up
 
 // Image routes
 Route::resource('marketing-image', 'MarketingImageController');
+
+// Api widget routes
+Route::get('api/widget-data', 'ApiController@widgetData');
