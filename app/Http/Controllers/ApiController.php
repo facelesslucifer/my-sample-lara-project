@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Queries\GridQueries\GridQuery;
+use App\Queries\GridQueries\WidgetQuery;
+use App\Queries\GridQueries\MarketingImageQuery;
+use DB;
 use Illuminate\Http\Request;
-use App\Widget;
-
-use App\Http\Requests;
 
 class ApiController extends Controller
 {
-    public function widgetData()
+    public function widgetData(Request $request)
     {
-        $rows = Widget::select('id as Id',
-            'name as Name',
-            'created_at as Created')
-            ->paginate(10);
+        return GridQuery::sendData($request, new WidgetQuery);
+    }
 
-        return response()->json($rows);
+    public function marketingImageData(Request $request)
+    {
+        return GridQuery::sendData($request, new MarketingImageQuery);
     }
 }
